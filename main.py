@@ -4,10 +4,12 @@ from pyrogram.types import Message, InputMediaPhoto
 from time import sleep
 from openai import OpenAI
 from datetime import datetime
+from dotenv import load_dotenv, find_dotenv
 import shutil
 import json
 import os
 
+load_dotenv(find_dotenv())
 
 def gen_ansver_from_gpt(text): 
     client = OpenAI(api_key="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")
@@ -20,12 +22,10 @@ def gen_ansver_from_gpt(text):
 
     return response.choices[0].message.content
 
-api_id = 27325671
-api_hash = "798a4b34377e05e1c7fd3e6c390581cf"
-
-chat_id_of_parse_channel = -1002031020789 
-
-my_tg = -1002143549181
+api_id = os.getenv("api_id")
+api_hash = os.getenv("api_hash")
+chat_id_of_parse_channel = os.getenv("chat_id_of_parse_channel") 
+my_tg = os.getenv("-1002143549181") 
 
 app = Client("my_account1", api_id=api_id, api_hash=api_hash)
 
@@ -57,4 +57,5 @@ def log(client, message : Message):
                 app.send_photo(my_tg, message.photo.file_id, message.caption)
         else:
             app.send_message(my_tg, message.text)
+
 app.run()
